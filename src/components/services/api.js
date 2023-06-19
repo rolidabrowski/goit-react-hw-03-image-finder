@@ -15,7 +15,8 @@ export const fetchPhotosWithQuery = async searchQuery => {
   return response.data.hits;
 };
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export default {
+const api = {
   fetchPhotosWithQuery,
 };
+
+export default api;
