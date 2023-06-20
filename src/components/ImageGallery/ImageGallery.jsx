@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ImageGalleryItem } from '../ImageGalleryItem';
+import { Modal } from '../Modal';
 import api from '../services/api';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
@@ -16,6 +17,8 @@ export class ImageGallery extends Component {
     error: null,
     page: 1,
     totalPages: null,
+    isShowModal: false,
+    modalData: { img: '', tags: '' },
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -47,19 +50,31 @@ export class ImageGallery extends Component {
     }
   }
 
+  setModalData = modalData => {
+    this.setState({ modalData, isShowModal: true });
+  };
+
+  handleModalClose = () => {
+    this.setState({ isShowModal: false });
+  };
+
   render() {
-    const { gallery } = this.state;
+    const { gallery, isShowModal, modalData } = this.state;
     return (
-      <ul className={css.gallery}>
-        {gallery.map(image => (
-          <ImageGalleryItem
-            key={image.id}
-            tags={image.tags}
-            largeImageURL={image.largeImageURL}
-            webformatURL={image.webformatURL}
-          />
-        ))}
-      </ul>
+      <>
+        <ul className={css.gallery}>
+          {gallery.map(image => (
+            <ImageGalleryItem
+              key={image.id}
+              item={image}
+              onImageClick={this.setModalData}
+            />
+          ))}
+        </ul>
+        {isShowModal && (
+          <Modal modalData={modalData} onModalClose={this.handleModalClose} />
+        )}
+      </>
     );
   }
 }
