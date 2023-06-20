@@ -10,13 +10,13 @@ axios.defaults.params = {
   per_page: 12,
 };
 
-export const fetchPhotosWithQuery = async searchQuery => {
-  const response = await axios.get(`/?q=${searchQuery}`);
-  return response.data.hits;
+export const fetchPhotos = async (searchQuery, page) => {
+  const response = await axios.get(`/?q=${searchQuery}&page=${page}`);
+  return response.data;
 };
 
 const api = {
-  fetchPhotosWithQuery,
+  fetchPhotos,
 };
 
 export default api;
