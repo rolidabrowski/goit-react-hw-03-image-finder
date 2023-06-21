@@ -25,7 +25,7 @@ export class ImageGallery extends Component {
     isLoading: false,
     error: null,
     page: 1,
-    perPage: 200,
+    perPage: 12,
     totalPages: 0,
     isShowModal: false,
     modalData: { img: '', tags: '' },
