@@ -7,13 +7,6 @@ import api from '../services/api';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
 
-const Status = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  RESOLVED: 'resolved',
-  REJECTED: 'rejected',
-};
-
 export class ImageGallery extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
@@ -29,7 +22,6 @@ export class ImageGallery extends Component {
     totalPages: 0,
     isShowModal: false,
     modalData: { img: '', tags: '' },
-    status: Status.IDLE,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -45,7 +37,7 @@ export class ImageGallery extends Component {
     const nextValue = value.trim();
 
     if (prevValue !== nextValue || prevState.page !== page) {
-      this.setState({ isLoading: true, status: Status.PENDING });
+      this.setState({ isLoading: true });
 
       if (error) {
         this.setState({ error: null });
@@ -65,12 +57,13 @@ export class ImageGallery extends Component {
               page === 1
                 ? gallery.hits
                 : [...prevState.gallery, ...gallery.hits],
-            status: Status.RESOLVED,
+            isLoading: false,
             totalPages: Math.floor(gallery.totalHits / perPage),
           }));
         }
       } catch (error) {
         this.setState({ error });
+        alert('Something went wrong. Try again.');
       } finally {
         this.setState({ isLoading: false });
       }
@@ -90,32 +83,14 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const {
-      gallery,
-      isShowModal,
-      modalData,
-      page,
-      totalPages,
-      status,
-      isLoading,
-    } = this.state;
+    const { gallery, isShowModal, modalData, page, totalPages, isLoading } =
+      this.state;
 
-    if (status === 'idle') {
-      return;
-    }
-    if (isLoading && status === 'pending') {
+    if (isLoading) {
       return <MyLoader />;
     }
-    if (status === 'rejected') {
-      return alert(
-        'We are sorry, but you have reached the end of search results.'
-      );
-    }
-    if (gallery.length === 0 && status === 'rejected') {
-      return alert('Something went wrong. Try again.');
-    }
 
-    if (gallery.length > 0 && status === 'resolved') {
+    if (gallery.length > 0) {
       return (
         <>
           <ul className={css.gallery}>
@@ -127,7 +102,7 @@ export class ImageGallery extends Component {
               />
             ))}
           </ul>
-          {gallery.length > 0 && status !== 'pending' && page <= totalPages && (
+          {page <= totalPages && (
             <Button onClick={this.handleLoadMore}>Load More</Button>
           )}
           {isShowModal && (
