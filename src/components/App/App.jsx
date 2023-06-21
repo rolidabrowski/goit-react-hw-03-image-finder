@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Searchbar } from './Searchbar';
-import { ImageGallery } from './ImageGallery';
+import { Searchbar } from '../Searchbar';
+import { ImageGallery } from '../ImageGallery';
 import css from './App.module.css';
 
 export class App extends Component {
