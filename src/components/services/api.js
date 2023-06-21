@@ -6,11 +6,12 @@ axios.defaults.params = {
   image_type: 'photo',
   orientation: 'horizontal',
   safesearch: true,
-  per_page: 12,
 };
 
-export const fetchPhotos = async (searchQuery, page = 1) => {
-  const response = await axios.get(`/?q=${searchQuery}&page=${page}`);
+export const fetchPhotos = async (searchQuery, page = 1, perPage = 12) => {
+  const response = await axios.get(
+    `/?q=${searchQuery}&page=${page}&per_page=${perPage}`
+  );
   return response.data;
 };
 
