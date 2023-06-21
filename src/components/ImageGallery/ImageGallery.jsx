@@ -127,12 +127,9 @@ export class ImageGallery extends Component {
               />
             ))}
           </ul>
-          {gallery.length > 0 &&
-            status !== 'pending' &&
-            page <= totalPages &&
-            (console.log('page', page),
-            console.log('totalPages', totalPages),
-            (<Button onClick={this.handleLoadMore}>Load More</Button>))}
+          {gallery.length > 0 && status !== 'pending' && page <= totalPages && (
+            <Button onClick={this.handleLoadMore}>Load More</Button>
+          )}
           {isShowModal && (
             <Modal modalData={modalData} onModalClose={this.handleModalClose} />
           )}

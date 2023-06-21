@@ -1,4 +1,5 @@
 import { Dna } from 'react-loader-spinner';
+import propTypes from 'prop-types';
 import css from './Loader.module.css';
 
 export const MyLoader = props => (
@@ -14,3 +15,7 @@ export const MyLoader = props => (
     ></Dna>
   </div>
 );
+
+MyLoader.propTypes = {
+  props: propTypes.object,
+};
